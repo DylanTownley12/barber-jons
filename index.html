@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barber Jon's — Saint Helens</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #111010;
+    --white: #f8f6f3;
+    --red: #c0392b;
+    --red-dark: #9b2d20;
+    --grey: #7a7672;
+    --card-bg: #1a1917;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 3rem;
+    background: rgba(17,16,16,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--red);
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .logo span { color: var(--red); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  nav ul a {
+    text-decoration: none;
+    color: var(--white);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.65;
+    transition: opacity 0.2s, color 0.2s;
+  }
+
+  nav ul a:hover { opacity: 1; color: var(--red); }
+
+  .nav-cta {
+    background: var(--red) !important;
+    color: var(--white) !important;
+    opacity: 1 !important;
+    padding: 0.55rem 1.3rem;
+    font-weight: 500;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--red-dark) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 3rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 80% 50%, rgba(192,57,43,0.12) 0%, transparent 60%),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 80px,
+        rgba(255,255,255,0.015) 80px,
+        rgba(255,255,255,0.015) 81px
+      );
+  }
+
+  .hero-big-text {
+    position: absolute;
+    right: -2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(10rem, 20vw, 18rem);
+    color: rgba(192,57,43,0.07);
+    line-height: 1;
+    user-select: none;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-content { position: relative; max-width: 700px; }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--red);
+    padding: 0.4rem 1rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.1s;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 10vw, 8rem);
+    letter-spacing: 0.04em;
+    line-height: 0.95;
+    margin-bottom: 1.2rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.3s;
+  }
+
+  .hero h1 span { color: var(--red); }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--grey);
+    line-height: 1.7;
+    max-width: 420px;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.5s;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.7s;
+  }
+
+  .btn-red {
+    background: var(--red);
+    color: var(--white);
+    padding: 0.9rem 2rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-red:hover { background: var(--red-dark); transform: translateY(-2px); }
+
+  .btn-outline {
+    border: 1px solid rgba(248,246,243,0.25);
+    color: var(--white);
+    padding: 0.9rem 2rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-outline:hover { border-color: var(--red); color: var(--red); }
+
+  /* RATING STRIP */
+  .rating-strip {
+    background: var(--card-bg);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 1.5rem 3rem;
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .rating-block {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .rating-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: var(--red);
+    line-height: 1;
+  }
+
+  .rating-stars { color: #f5c518; font-size: 1rem; letter-spacing: 0.1em; }
+  .rating-label { font-size: 0.75rem; color: var(--grey); letter-spacing: 0.05em; margin-top: 0.2rem; }
+
+  .strip-divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.08);
+  }
+
+  .strip-fact {
+    font-size: 0.8rem;
+    color: var(--grey);
+    letter-spacing: 0.05em;
+  }
+
+  .strip-fact strong { color: var(--white); display: block; font-size: 1rem; font-weight: 500; }
+
+  /* REVIEWS */
+  .section { padding: 5rem 3rem; }
+
+  .section-tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 0.05em;
+    margin-bottom: 2.5rem;
+    line-height: 1;
+  }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .review-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 2rem;
+    border-left: 3px solid var(--red);
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .review-card:hover { transform: translateY(-3px); }
+
+  .review-stars { color: #f5c518; font-size: 0.9rem; margin-bottom: 1rem; }
+
+  .review-text {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: rgba(248,246,243,0.8);
+    margin-bottom: 1.2rem;
+    font-style: italic;
+  }
+
+  .review-author {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+
+  /* SERVICES */
+  .services-bg { background: #0d0c0c; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.05);
+    margin-top: 2rem;
+  }
+
+  .svc {
+    background: var(--black);
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+    gap: 1rem;
+  }
+
+  .svc:hover { background: #161514; }
+
+  .svc-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.06em;
+  }
+
+  .svc-note {
+    font-size: 0.78rem;
+    color: var(--grey);
+    margin-top: 0.2rem;
+  }
+
+  .svc-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    color: var(--red);
+    white-space: nowrap;
+  }
+
+  /* INFO */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.05);
+    margin-top: 2rem;
+  }
+
+  .info-card {
+    background: var(--card-bg);
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+
+  .info-icon { font-size: 2rem; margin-bottom: 1rem; }
+
+  .info-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+
+  .info-text { font-size: 0.85rem; color: var(--grey); line-height: 1.6; }
+  .info-text strong { color: var(--white); }
+
+  /* CTA */
+  .cta {
+    background: var(--red);
+    padding: 5rem 3rem;
+    text-align: center;
+  }
+
+  .cta h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.8rem;
+    color: var(--white);
+  }
+
+  .cta p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 2rem;
+  }
+
+  .btn-white {
+    background: var(--white);
+    color: var(--red);
+    padding: 1rem 2.5rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-white:hover { background: #ede8e0; transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    background: #080807;
+    padding: 2.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-top: 2px solid var(--red);
+  }
+
+  footer p { font-size: 0.75rem; color: var(--grey); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.2rem; }
+    nav ul { display: none; }
+    .hero { padding: 7rem 1.5rem 4rem; }
+    .hero-big-text { display: none; }
+    .section { padding: 3.5rem 1.5rem; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .info-grid { grid-template-columns: 1fr; }
+    .rating-strip { padding: 1.2rem 1.5rem; gap: 1.5rem; }
+    footer { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Barber <span>Jon's</span></div>
+  <ul>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#services">Prices</a></li>
+    <li><a href="#find-us">Find Us</a></li>
+    <li><a href="#visit" class="nav-cta">Visit Us</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-big-text">JON'S</div>
+  <div class="hero-content">
+    <div class="hero-tag">✂ Saint Helens · Moss Bank Road</div>
+    <h1>Your Local<br><span>Barber.</span></h1>
+    <p class="hero-sub">Great cuts, honest prices, no fuss. Walk-ins always welcome at Barber Jon's on Moss Bank Road.</p>
+    <div class="hero-actions">
+      <a href="#find-us" class="btn-red">Find Us</a>
+      <a href="#services" class="btn-outline">See Prices</a>
+    </div>
+  </div>
+</section>
+
+<!-- RATING STRIP -->
+<div class="rating-strip">
+  <div class="rating-block">
+    <div class="rating-num">4.9</div>
+    <div>
+      <div class="rating-stars">★★★★★</div>
+      <div class="rating-label">41 Google Reviews</div>
+    </div>
+  </div>
+  <div class="strip-divider"></div>
+  <div class="strip-fact"><strong>Walk-ins Welcome</strong>No appointment needed</div>
+  <div class="strip-divider"></div>
+  <div class="strip-fact"><strong>Local & Friendly</strong>Saint Helens' favourite barber</div>
+  <div class="strip-divider"></div>
+  <div class="strip-fact"><strong>Great Prices</strong>Quality cuts, fair rates</div>
+</div>
+
+<!-- REVIEWS -->
+<section class="section" id="reviews">
+  <p class="section-tag reveal">What People Say</p>
+  <h2 class="section-title reveal">Our Customers Love Us</h2>
+  <div class="reviews-grid reveal">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Great prices, great haircuts, no appointments needed, great bloke."</p>
+      <div class="review-author">— Google Review</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Following several trips to different barbers our son is finally loving his haircut! Lovely & friendly service, great cut — 5 stars!"</p>
+      <div class="review-author">— Google Review</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Good company, great haircut. Always leave happy — wouldn't go anywhere else."</p>
+      <div class="review-author">— Google Review</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section services-bg" id="services">
+  <p class="section-tag reveal">What We Offer</p>
+  <h2 class="section-title reveal">Prices</h2>
+  <div class="services-grid reveal">
+    <div class="svc">
+      <div><div class="svc-name">Men's Cut</div><div class="svc-note">Wash, cut & style</div></div>
+      <div class="svc-price">£12</div>
+    </div>
+    <div class="svc">
+      <div><div class="svc-name">Boys Cut</div><div class="svc-note">Under 12s</div></div>
+      <div class="svc-price">£8</div>
+    </div>
+    <div class="svc">
+      <div><div class="svc-name">Fade</div><div class="svc-note">Skin, low or mid fade</div></div>
+      <div class="svc-price">£15</div>
+    </div>
+    <div class="svc">
+      <div><div class="svc-name">Beard Trim</div><div class="svc-note">Shape & tidy</div></div>
+      <div class="svc-price">£8</div>
+    </div>
+    <div class="svc">
+      <div><div class="svc-name">Cut & Beard Combo</div><div class="svc-note">Best value</div></div>
+      <div class="svc-price">£20</div>
+    </div>
+    <div class="svc">
+      <div><div class="svc-name">Senior Cut</div><div class="svc-note">Over 65s</div></div>
+      <div class="svc-price">£10</div>
+    </div>
+  </div>
+  <p style="margin-top:1rem; font-size:0.78rem; color:var(--grey);">* Prices are estimated — visit us for exact pricing.</p>
+</section>
+
+<!-- FIND US -->
+<section class="section" id="find-us">
+  <p class="section-tag reveal">Getting Here</p>
+  <h2 class="section-title reveal">Find Us</h2>
+  <div class="info-grid reveal">
+    <div class="info-card">
+      <div class="info-icon">📍</div>
+      <div class="info-title">Address</div>
+      <div class="info-text">
+        <strong>41 Moss Bank Rd</strong><br>
+        Saint Helens<br>
+        WA11 7DD
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">⏰</div>
+      <div class="info-title">Opening Hours</div>
+      <div class="info-text">
+        <strong>Mon – Fri:</strong> 9am – 6pm<br>
+        <strong>Saturday:</strong> 9am – 5pm<br>
+        <strong>Sunday:</strong> Closed
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">✂</div>
+      <div class="info-title">Walk-ins Welcome</div>
+      <div class="info-text">
+        No appointment needed.<br>
+        Just turn up and we'll<br>
+        <strong>get you sorted.</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="visit">
+  <h2>Come In & See Us</h2>
+  <p>Walk-ins always welcome. No booking, no hassle — just a great cut.</p>
+  <a href="https://maps.google.com/?q=41+Moss+Bank+Rd,+Saint+Helens+WA11+7DD" target="_blank" class="btn-white">Get Directions on Google Maps</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo" style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#f8f6f3;">Barber <span style="color:var(--red);">Jon's</span></div>
+  <p>41 Moss Bank Rd, Saint Helens WA11 7DD</p>
+  <p>© 2025 Barber Jon's · Saint Helens</p>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
